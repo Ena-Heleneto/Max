@@ -3,7 +3,7 @@ import Vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import Pages from 'vite-plugin-pages'
 import generateSitemap from 'vite-ssg-sitemap'
-import VueI18n from '@intlify/vite-plugin-vue-i18n'
+// import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Inspect from 'vite-plugin-inspect'
@@ -95,11 +95,11 @@ export default defineConfig({
       },
     }),
 
-    VueI18n({
-      runtimeOnly: true,
-      compositionOnly: true,
-      include: [path.resolve(__dirname, 'locales/**')],
-    }),
+    // VueI18n({
+    //   runtimeOnly: true,
+    //   compositionOnly: true,
+    //   include: [path.resolve(__dirname, 'locales/**')],
+    // }),
 
     Icons({
       compiler: 'vue3',
@@ -131,14 +131,13 @@ export default defineConfig({
 
   css: {
     preprocessorOptions: {
-      scss: { additionalData: '@import \'~/assets/scss/mixin.scss\';' },
+      scss: { additionalData: '@use \'~/assets/scss/mixin.scss\';' },
     },
     postcss: {
       plugins: [loader_pxToRem, loader_autoPreFixer],
     },
   },
   server: {
-
     cors: true,
     open: false,
     hmr: true,
