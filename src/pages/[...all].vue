@@ -26,4 +26,3 @@
 meta:
   layout: 404
   </route>
-

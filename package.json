@@ -13,6 +13,7 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@chenfengyuan/vue-qrcode": "^2.0.0",
     "@element-plus/icons-vue": "^2.0.10",
+    "@iconify/json": "2.2.363",
     "@types/node": "18.11.18",
     "animejs": "^3.2.1",
     "axios-mapper": "^0.5.9",

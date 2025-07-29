@@ -17,6 +17,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.0.10
         version: 2.3.1(vue@3.5.17(typescript@4.9.5))
+      '@iconify/json':
+        specifier: 2.2.363
+        version: 2.2.363
       '@types/node':
         specifier: 18.11.18
         version: 18.11.18
@@ -971,6 +974,9 @@ packages:
 
   '@iconify-json/ep@1.2.2':
     resolution: {integrity: sha512-/IH1GjQKH5uK7lQAOjwPxdjkU98OWUWnHYCdg/EkeebBKEteotaOMeEz5pR1egqMcI7zPFdFBTcGyCHla1ddQw==}
+
+  '@iconify/json@2.2.363':
+    resolution: {integrity: sha512-iSNBti18BhOizJSZCQr/1Mqp9kyqncQfSUElkScsQ0KyLNU2XUNuQ93JAMYtqJbtqtdjjWKidCJu9yfksIQmxA==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -6138,6 +6144,11 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify/json@2.2.363':
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 1.1.2
+
   '@iconify/types@2.0.0': {}
 
   '@iconify/utils@2.3.0':
@@ -7046,7 +7057,7 @@ snapshots:
       fp-ts: 2.16.10
       inferred-types: 0.37.6(happy-dom@8.9.0)(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)
       markdown-it: 13.0.2
-      vite-plugin-md: 0.22.5(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(happy-dom@8.9.0)(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))
+      vite-plugin-md: 0.22.5(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitejs/plugin-vue'
@@ -7054,6 +7065,30 @@ snapshots:
       - '@vitest/ui'
       - encoding
       - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - vite
+
+  '@yankeeinlondon/builder-api@1.4.1(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))':
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      '@yankeeinlondon/happy-wrapper': 2.10.1(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)
+      fp-ts: 2.16.10
+      inferred-types: 0.37.6(happy-dom@8.9.0)(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)
+      markdown-it: 13.0.2
+      vite-plugin-md: 0.22.5(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitejs/plugin-vue'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - encoding
       - jsdom
       - less
       - lightningcss
@@ -10685,10 +10720,10 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-md@0.22.5(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(happy-dom@8.9.0)(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1)):
+  vite-plugin-md@0.22.5(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1)):
     dependencies:
       '@vitejs/plugin-vue': 4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5))
-      '@yankeeinlondon/builder-api': 1.4.1(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(happy-dom@8.9.0)(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))
+      '@yankeeinlondon/builder-api': 1.4.1(@vitejs/plugin-vue@4.6.2(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))(vue@3.5.17(typescript@4.9.5)))(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)(vite@4.5.14(@types/node@18.11.18)(sass@1.89.2)(terser@5.43.1))
       '@yankeeinlondon/gray-matter': 6.2.1(happy-dom@8.9.0)(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)
       '@yankeeinlondon/happy-wrapper': 2.10.1(jsdom@21.1.2)(sass@1.89.2)(terser@5.43.1)
       markdown-it: 13.0.2
@@ -10699,7 +10734,6 @@ snapshots:
       - '@vitest/browser'
       - '@vitest/ui'
       - encoding
-      - happy-dom
       - jsdom
       - less
       - lightningcss

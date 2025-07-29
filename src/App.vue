@@ -11,4 +11,3 @@
 <template>
   <RouterView />
 </template>
-
