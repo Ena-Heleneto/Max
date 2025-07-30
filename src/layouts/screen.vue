@@ -22,6 +22,22 @@ const menuMap = new Map().set(4, 'averageOutput').set(6, 'publicOpinionMonitorin
 
 const isOpen = ref<boolean>(false)
 const input = ref<string>('')
+
+const chatList = ref<{ send: string;content: string }[]>([
+  { send: 'ai', content: '你好，我是AI助手，请问有什么可以帮助你的吗？' },
+  { send: 'user', content: '你好，AI助手，我想了解一下你能做些什么？' },
+  { send: 'ai', content: '我可以帮助你获取信息、回答问题、提供建议等。' },
+  { send: 'user', content: '那你能帮我做什么具体的事情吗？' },
+  { send: 'ai', content: '当然可以，我可以帮助你查询天气、新闻、百科知识等。' },
+  { send: 'user', content: '好的，那请帮我查询一下今天的天气。' },
+  { send: 'ai', content: '好的，请稍等，我正在为您查询今天的天气信息。' },
+
+])
+
+function handleSend() {
+  chatList.value.push({ send: 'user', content: input.value })
+  input.value = ''
+}
 </script>
 
 <template>
@@ -63,18 +79,27 @@ const input = ref<string>('')
             </div>
           </div>
           <div class="w-100 h-500px bg-#ffffff flex flex-col min-h-0">
-            <div class="flex-1 overflow-y-auto w-100">
-              <div class="w-100 h-1000px" />
-            </div>
+            <div class="flex-1  w-100 flex flex-col min-h-0">
+              <div class="w-full flex-1 overflow-y-auto">
+                <div v-for="(item, index) in chatList" :key="index">
+                  <Item :item="item" />
+                </div>
+              </div>
 
-            <div class="bg-gray-50/50 px-16px pb-10px w-100 border-t-1px border-#333/50">
-              <el-input v-model="input" placeholder="Please input">
-                <template #append>
-                  <div class="p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group">
-                    <div i-carbon:send-alt class="text-20px text-#333 group-hover:text-#333" />
-                  </div>
-                </template>
-              </el-input>
+              <div class="bg-gray-50/50 p-12px w-100 border-t-1px border-#333/50 relative flex items-center">
+                <input
+                  id="email" v-model="input" type="email" name="email" aria-label="Email"
+                  class="block w-100 text-16px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none"
+                  placeholder="you@example.com"
+                >
+
+                <button
+                  size="sm"
+                  class="absolute right-16px top-1/2 -translate-y-1/2 p-4px rounded-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg"
+                >
+                  <div i-lets-icons:send-fill class="text-18px text-#ffffff" @click="handleSend" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -45,6 +45,7 @@ declare module '@vue/runtime-core' {
     ForgotPass: typeof import('./components/login/forgotPass.vue')['default']
     Income: typeof import('./components/pandect/income.vue')['default']
     IndustryRanking: typeof import('./components/pandect/industryRanking.vue')['default']
+    Item: typeof import('./components/chat/item.vue')['default']
     MapOperate: typeof import('./components/pandect/mapOperate.vue')['default']
     NewRisk: typeof import('./components/publicOpinionMonitoring/newRisk.vue')['default']
     OperateDialog: typeof import('./components/dialog/operateDialog.vue')['default']
