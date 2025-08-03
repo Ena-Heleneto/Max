@@ -23,7 +23,7 @@ const menuMap = new Map().set(4, 'averageOutput').set(6, 'publicOpinionMonitorin
 const isOpen = ref<boolean>(false)
 const input = ref<string>('')
 
-const chatList = ref<{ send: string;content: string }[]>([
+const chatList = ref<{ send: string; content: string }[]>([
   { send: 'ai', content: '你好，我是AI助手，请问有什么可以帮助你的吗？' },
   { send: 'user', content: '你好，AI助手，我想了解一下你能做些什么？' },
   { send: 'ai', content: '我可以帮助你获取信息、回答问题、提供建议等。' },
@@ -34,9 +34,32 @@ const chatList = ref<{ send: string;content: string }[]>([
 
 ])
 
-function handleSend() {
-  chatList.value.push({ send: 'user', content: input.value })
-  input.value = ''
+const { userCode, token } = storeToRefs(useUserStore())
+
+async function handleSend() {
+  if (!input.value.trim())
+    return
+
+  try {
+    chatList.value.push({ send: 'user', content: input.value })
+    input.value = ''
+
+    const submitid = new Date().getTime()
+
+    const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
+
+    consola.info('AI Response:', res)
+  }
+  catch (error) {
+    console.error('Error sending message:', error)
+    console.error(error)
+
+    chatList.value.push({ send: 'ai', content: error })
+  }
+  finally {
+    // 清理输入框
+    input.value = ''
+  }
 }
 </script>
 
@@ -87,11 +110,13 @@ function handleSend() {
               </div>
 
               <div class="bg-gray-50/50 p-12px w-100 border-t-1px border-#333/50 relative flex items-center">
-                <input
-                  id="email" v-model="input" type="email" name="email" aria-label="Email"
-                  class="block w-100 text-16px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none"
+                <!-- <input
+                  id="input" v-model="input" type="textarea" autosize
+                  class="block w-100 pr-30px text-16px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none"
                   placeholder="you@example.com"
-                >
+                > -->
+
+                <el-input v-model="input" class="chat-input" autosize type="textarea" placeholder="Please input" />
 
                 <button
                   size="sm"
@@ -147,5 +172,29 @@ function handleSend() {
   background-size: 100% 100%;
 }
 
-:deep(.chat-input) {}
+// :deep(.chat-input) {}
+// ::v-deep .chat-input{
+:deep(.chat-input) {
+  // background:red;
+  width: 100%;
+
+  background-color: #ffffff;
+
+  outline: none;
+
+  resize: none;
+  overflow: hidden;
+
+  .el-textarea__inner {
+    transition: border-color 0.3s ease;
+    border: 1px solid #6b7280;
+    padding: 7px 30px 7px 10px;
+    font-size: 16px;
+    line-height: 20px;
+    color: #1f2937;
+
+    border-radius: 9999px;
+  }
+
+}
 </style>
