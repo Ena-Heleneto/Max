@@ -43,6 +43,7 @@ declare module '@vue/runtime-core' {
     EnterpriseRiskCom: typeof import('./components/publicOpinionMonitoring/enterpriseRiskCom.vue')['default']
     EnterpriseSubItemization: typeof import('./components/corporatePortrait/enterpriseSubItemization.vue')['default']
     ForgotPass: typeof import('./components/login/forgotPass.vue')['default']
+    IEpSearch: typeof import('~icons/ep/search')['default']
     Income: typeof import('./components/pandect/income.vue')['default']
     IndustryRanking: typeof import('./components/pandect/industryRanking.vue')['default']
     Item: typeof import('./components/chat/item.vue')['default']

@@ -73,7 +73,7 @@ async function handleSend() {
       <RouterView />
     </main>
 
-    <div class="fixed bottom-6 right-6 z-50 cursor-pointer">
+    <div class="fixed bottom-70px right-70px z-50 cursor-pointer">
       <transition name="el-fade-in-linear">
         <div v-if="isOpen" class="w-400px  overflow-hidden bg-#ffffff absolute bottom-[120%] right-0 rounded-lg">
           <div class="w-100 h-100px bg-purple-700 flex justify-around items-center">
@@ -86,12 +86,12 @@ async function handleSend() {
             </div>
 
             <div class="flex items-center gap-15px">
-              <div class=" p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group">
+              <!-- <div class=" p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group">
                 <div
                   i-majesticons:minimize
                   class="text-20px text-#ffffff group-hover:text-#333 transition-all duration-300"
                 />
-              </div>
+              </div> -->
 
               <div
                 class="p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group"
@@ -103,20 +103,19 @@ async function handleSend() {
           </div>
           <div class="w-100 h-500px bg-#ffffff flex flex-col min-h-0">
             <div class="flex-1  w-100 flex flex-col min-h-0">
-              <div class="w-full flex-1 overflow-y-auto">
+              <div class="w-full flex-1 overflow-y-auto px-10px">
                 <div v-for="(item, index) in chatList" :key="index">
                   <Item :item="item" />
                 </div>
               </div>
 
               <div class="bg-gray-50/50 p-12px w-100 border-t-1px border-#333/50 relative flex items-center">
-                <!-- <input
-                  id="input" v-model="input" type="textarea" autosize
-                  class="block w-100 pr-30px text-16px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none"
-                  placeholder="you@example.com"
-                > -->
-
-                <el-input v-model="input" class="chat-input" autosize type="textarea" placeholder="Please input" />
+                <textarea
+                  id="input"
+                  v-model.trim="input" rows="1" type="textarea" autosize
+                  class="block w-100 pr-30px text-20px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none overflow-hidden"
+                  placeholder="请输入你的问题" @keydown.enter.prevent="handleSend"
+                />
 
                 <button
                   size="sm"
@@ -176,24 +175,25 @@ async function handleSend() {
 // ::v-deep .chat-input{
 :deep(.chat-input) {
   // background:red;
-  width: 100%;
+  // width: 100%;
 
-  background-color: #ffffff;
+  // background-color: #ffffff;
 
-  outline: none;
+  // outline: none;
 
-  resize: none;
-  overflow: hidden;
+  // resize: none;
+  // overflow: hidden;
 
   .el-textarea__inner {
-    transition: border-color 0.3s ease;
-    border: 1px solid #6b7280;
-    padding: 7px 30px 7px 10px;
-    font-size: 16px;
-    line-height: 20px;
-    color: #1f2937;
+    // transition: border-color 0.3s ease;
 
-    border-radius: 9999px;
+    // border: 1px solid #6b7280;
+    // padding: 7px 30px 7px 10px;
+    // font-size: 16px;
+    // line-height: 20px;
+    // color: #1f2937;
+
+    // border-radius: 20px;
   }
 
 }
