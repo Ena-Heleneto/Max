@@ -23,16 +23,7 @@ const menuMap = new Map().set(4, 'averageOutput').set(6, 'publicOpinionMonitorin
 const isOpen = ref<boolean>(false)
 const input = ref<string>('')
 
-const chatList = ref<{ send: string; content: string }[]>([
-  { send: 'ai', content: '你好，我是AI助手，请问有什么可以帮助你的吗？' },
-  { send: 'user', content: '你好，AI助手，我想了解一下你能做些什么？' },
-  { send: 'ai', content: '我可以帮助你获取信息、回答问题、提供建议等。' },
-  { send: 'user', content: '那你能帮我做什么具体的事情吗？' },
-  { send: 'ai', content: '当然可以，我可以帮助你查询天气、新闻、百科知识等。' },
-  { send: 'user', content: '好的，那请帮我查询一下今天的天气。' },
-  { send: 'ai', content: '好的，请稍等，我正在为您查询今天的天气信息。' },
-
-])
+const chatList = ref<{ send: string; content: string }[]>([])
 
 const { userCode, token } = storeToRefs(useUserStore())
 
@@ -41,14 +32,12 @@ async function handleSend() {
     return
 
   try {
-    chatList.value.push({ send: 'user', content: input.value })
-    input.value = ''
-
     const submitid = new Date().getTime()
 
     const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
 
     consola.info('AI Response:', res)
+    chatList.value.push({ send: 'user', content: input.value })
   }
   catch (error) {
     console.error('Error sending message:', error)
