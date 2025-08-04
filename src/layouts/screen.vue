@@ -33,17 +33,31 @@ async function handleSend() {
 
   try {
     const submitid = new Date().getTime()
+    chatList.value.push({ send: 'user', content: input.value })
 
     const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
 
     consola.info('AI Response:', res)
-    chatList.value.push({ send: 'user', content: input.value })
+    consola.info('AI Response:', typeof res)
+
+    // let _res
+    // try {
+    //   _res = JSON.parse(res as string)
+    // }
+    // catch (parseError) {
+    //   console.error('Invalid JSON response:', res)
+    //   chatList.value.push({ send: 'ai', content: '抱歉，收到了无效的响应格式。' })
+    //   return
+    // }
+
+    // consola.info('AI Response:', _res)
+
+    // if (_res && _res.content)
+    //   chatList.value.push({ send: 'ai', content: _res.content })
   }
   catch (error) {
     console.error('Error sending message:', error)
     console.error(error)
-
-    chatList.value.push({ send: 'ai', content: error })
   }
   finally {
     // 清理输入框

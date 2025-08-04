@@ -100,3 +100,11 @@ export const scanloginchkPost = (url: string, data: RequestParams) => {
     }, (err) => { reject(err) })
   })
 }
+
+export const stringPost = (url: string, data: RequestParams) => {
+  return new Promise((resolve, reject) => {
+    https.request<string>(url, Method.POST, data).then((response) => {
+      resolve(response)
+    }, (err) => { reject(err) })
+  })
+}

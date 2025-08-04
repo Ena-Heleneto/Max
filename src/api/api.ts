@@ -66,4 +66,4 @@ export const userinfoinput = (param: any) => post('/userinfoinput.aspx', param)
 // 获取扫码结果
 export const scanloginchk = (param: any) => scanloginchkPost('/scanloginchk.aspx', param)
 
-export const aids = (param: any) => post('/aids.aspx', param)
+export const aids = (param: any) => stringPost('/aids.aspx', param)
