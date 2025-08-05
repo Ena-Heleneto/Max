@@ -27,16 +27,19 @@ const chatList = ref<{ send: string; content: string }[]>([])
 
 const { userCode, token } = storeToRefs(useUserStore())
 
+const loading = ref<boolean>(true)
 async function handleSend() {
   if (!input.value.trim())
     return
 
   try {
+    loading.value = true
     const submitid = new Date().getTime()
     chatList.value.push({ send: 'user', content: input.value })
 
     const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
 
+    const _res = JSON.parse(res)
     consola.info('AI Response:', res)
     consola.info('AI Response:', typeof res)
 
@@ -54,14 +57,18 @@ async function handleSend() {
 
     // if (_res && _res.content)
     //   chatList.value.push({ send: 'ai', content: _res.content })
+    // chatList.value.push({ send: 'user', content: input.value })
+    chatList.value.push({ send: 'ai', content: res.data })
   }
   catch (error) {
     console.error('Error sending message:', error)
     console.error(error)
+    chatList.value.push({ send: 'ai', content: error })
   }
   finally {
     // 清理输入框
     input.value = ''
+    loading.value = false
   }
 }
 </script>
@@ -83,7 +90,7 @@ async function handleSend() {
             <div class="flex items-center gap-10px">
               <el-avatar :icon="UserFilled" />
               <div class="flex flex-col">
-                <span class="font-semibold text-20px text-white">AI在线助手</span>
+                <span class="font-semibold text-20px text-white">AI在线小麦</span>
                 <span class="text-14px text-purple-100">在线 • 通常立即回复</span>
               </div>
             </div>
@@ -121,6 +128,7 @@ async function handleSend() {
                 />
 
                 <button
+                  v-loading="loading"
                   size="sm"
                   class="absolute right-16px top-1/2 -translate-y-1/2 p-4px rounded-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg"
                 >

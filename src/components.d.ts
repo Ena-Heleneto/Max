@@ -75,4 +75,7 @@ declare module '@vue/runtime-core' {
     TheIndustrialProjects: typeof import('./components/home/theIndustrialProjects.vue')['default']
     ThePie: typeof import('./components/common/ThePie.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }
