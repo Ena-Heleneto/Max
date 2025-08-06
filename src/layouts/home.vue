@@ -17,55 +17,55 @@ onMounted(() => {
   }
 })
 
-const isOpen = ref<boolean>(false)
-const input = ref<string>('')
+// const isOpen = ref<boolean>(false)
+// const input = ref<string>('')
 
-const chatList = ref<{ send: string; content: string }[]>([])
+// const chatList = ref<{ send: string; content: string }[]>([])
 
 const { userCode, token } = storeToRefs(useUserStore())
 
-const loading = ref<boolean>(true)
-async function handleSend() {
-  if (!input.value.trim())
-    return
+// const loading = ref<boolean>(true)
+// async function handleSend() {
+//   if (!input.value.trim())
+//     return
 
-  try {
-    loading.value = true
-    const submitid = new Date().getTime()
+//   try {
+//     loading.value = true
+//     const submitid = new Date().getTime()
 
-    const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
+//     const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
 
-    const _res = JSON.parse(res)
-    consola.info('AI Response:', res)
-    chatList.value.push({ send: 'user', content: input.value })
-    chatList.value.push({ send: 'ai', content: res.data })
-  }
-  catch (error) {
-    console.error('Error sending message:', error)
-    console.error(error)
+//     const _res = JSON.parse(res)
+//     consola.info('AI Response:', res)
+//     chatList.value.push({ send: 'user', content: input.value })
+//     chatList.value.push({ send: 'ai', content: res.data })
+//   }
+//   catch (error) {
+//     console.error('Error sending message:', error)
+//     console.error(error)
 
-    chatList.value.push({ send: 'ai', content: error })
-  }
-  finally {
-    // 清理输入框
-    input.value = ''
-    loading.value = false
-  }
-}
+//     chatList.value.push({ send: 'ai', content: error })
+//   }
+//   finally {
+//     // 清理输入框
+//     input.value = ''
+//     loading.value = false
+//   }
+// }
 </script>
 
 <template>
   <div po-r class="home-box" wPE-100 hPE-100 flex-column-start>
     <the-header />
     <video ref="videoRef" autoplay po-a z-0 wPE-100 hPE-100 controls>
-      <source :src="`http://www.maxrongbigdata.com:8700/video.aspx?usercode=${useUserStore().userCode}`" type="video/mp4">
+      <source :src="`http://www.maxrongbigdata.com:8700/video.aspx?usercode=${userCode}`" type="video/mp4">
       <p>您的浏览器不支持 HTML5 视频 </p>
     </video>
     <the-bar />
     <main style="pointer-events: none;" h-74 po-a potPE-16 z-10 wPE-100 potPE-21 flex-1 pl-34 pr-34>
       <RouterView />
     </main>
-
+    <!--
     <div class="fixed bottom-70px right-70px z-50 cursor-pointer">
       <transition name="el-fade-in-linear">
         <div v-if="isOpen" class="w-400px  overflow-hidden bg-#ffffff absolute bottom-[120%] right-0 rounded-lg">
@@ -79,12 +79,12 @@ async function handleSend() {
             </div>
 
             <div class="flex items-center gap-15px">
-              <!-- <div class=" p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group">
+             <div class=" p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group">
                 <div
                   i-majesticons:minimize
                   class="text-20px text-#ffffff group-hover:text-#333 transition-all duration-300"
                 />
-              </div> -->
+              </div>
 
               <div
                 class="p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group"
@@ -138,7 +138,7 @@ async function handleSend() {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

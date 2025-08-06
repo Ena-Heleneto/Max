@@ -37,9 +37,9 @@ async function handleSend() {
     const submitid = new Date().getTime()
     chatList.value.push({ send: 'user', content: input.value })
 
-    const res = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
+    const res: any = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
 
-    const _res = JSON.parse(res)
+    // const _res = JSON.parse(res as string)
     consola.info('AI Response:', res)
     consola.info('AI Response:', typeof res)
 
@@ -58,7 +58,7 @@ async function handleSend() {
     // if (_res && _res.content)
     //   chatList.value.push({ send: 'ai', content: _res.content })
     // chatList.value.push({ send: 'user', content: input.value })
-    chatList.value.push({ send: 'ai', content: res.data })
+    chatList.value.push({ send: 'ai', content: res })
   }
   catch (error) {
     console.error('Error sending message:', error)
@@ -128,7 +128,7 @@ async function handleSend() {
                 />
 
                 <button
-                  v-loading="loading"
+
                   size="sm"
                   class="absolute right-16px top-1/2 -translate-y-1/2 p-4px rounded-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg"
                 >
