@@ -10,6 +10,46 @@
 
 <script lang="ts" setup>
 import { UserFilled } from '@element-plus/icons-vue'
+import { useTemplateRef } from 'vue'
+const { x, y, sourceType } = useMouse()
+const { pressed } = useMousePressed()
+const { width, height } = useWindowSize()
+const _x = ref<number>(width.value - 70)
+const _y = ref<number>(height.value - 70)
+const target = useTemplateRef<HTMLDivElement>('target')
+
+const { isOutside } = useMouseInElement(target)
+// watch:{}(() => {
+//   if (pressed) {
+//     _x.value = x.value
+//     _y.value = y.value
+//   }
+// })
+
+// watch(
+//   pressed,
+//   (newPressed) => {
+//     if (newPressed) {
+//       _x.value = x.value
+//       _y.value = y.value
+//     }
+//   },
+//   { immediate: true },
+// )
+
+watch([x, y], ([newX, newY]) => {
+  consola.info('Mouse X: -------------------------------')
+  consola.info('Mouse Position:', newX, newY)
+  consola.info('Mouse Pressed:', pressed.value)
+  consola.info('Is Outside:', isOutside.value)
+  if (pressed.value && !isOutside.value) {
+    consola.info('Updating position:', newX, newY)
+    _x.value = ((newX <= width.value - 70) && (newX > 0)) ? newX : _x.value
+    _y.value = ((newY <= height.value - 70) && (newY > 0)) ? newY : _y.value
+  }
+}, { immediate: true })
+// const __x = computed(() => _x = pressed ? x.value : _x.value)
+// const __y = computed(() => _y = pressed ? y.value : _y.value)
 /**
  * @description: 菜单对象
  */
@@ -83,7 +123,7 @@ async function handleSend() {
       <RouterView />
     </main>
 
-    <div class="fixed bottom-70px right-70px z-50 cursor-pointer">
+    <div ref="target" class="fixed bottom-70px w-60px h-60px right-70px z-50 cursor-pointer" :style="{ left: `${_x}px`, top: `${_y}px` }">
       <transition name="el-fade-in-linear">
         <div v-if="isOpen" class="w-400px  overflow-hidden bg-#ffffff absolute bottom-[120%] right-0 rounded-lg">
           <div class="w-100 h-100px bg-purple-700 flex justify-around items-center">
@@ -141,8 +181,8 @@ async function handleSend() {
       </transition>
 
       <div class="relative" @click="isOpen = !isOpen">
-        <div class="absolute inset-0 rounded-full bg-purple-400 animate-ping opacity-20" />
-        <div class="absolute inset-0 rounded-full bg-purple-400 animate-pulse opacity-30" />
+        <div class="absolute inset-0 rounded-full bg-purple-400 animate-ping opacity-20 pointer-events-none" />
+        <div class="absolute inset-0 rounded-full bg-purple-400 animate-pulse opacity-30 pointer-events-none" />
 
         <div
           class="relative h-56px w-70px rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-2 border-white group"
