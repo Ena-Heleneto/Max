@@ -9,9 +9,9 @@
 -->
 
 <script lang="ts" setup>
-import { UserFilled } from '@element-plus/icons-vue'
 import { useTemplateRef } from 'vue'
-const { x, y, sourceType } = useMouse()
+import LOGO from '~/assets/image/chat/LOGO.jpg'
+const { x, y } = useMouse()
 const { pressed } = useMousePressed()
 const { width, height } = useWindowSize()
 const _x = ref<number>(width.value - 70)
@@ -19,6 +19,8 @@ const _y = ref<number>(height.value - 70)
 const target = useTemplateRef<HTMLDivElement>('target')
 
 const { isOutside } = useMouseInElement(target)
+
+const visible = ref<boolean>(false)
 // watch:{}(() => {
 //   if (pressed) {
 //     _x.value = x.value
@@ -38,12 +40,7 @@ const { isOutside } = useMouseInElement(target)
 // )
 
 watch([x, y], ([newX, newY]) => {
-  consola.info('Mouse X: -------------------------------')
-  consola.info('Mouse Position:', newX, newY)
-  consola.info('Mouse Pressed:', pressed.value)
-  consola.info('Is Outside:', isOutside.value)
-  if (pressed.value && !isOutside.value) {
-    consola.info('Updating position:', newX, newY)
+  if (pressed.value && !isOutside.value && !visible.value) {
     _x.value = ((newX <= width.value - 70) && (newX > 0)) ? newX : _x.value
     _y.value = ((newY <= height.value - 70) && (newY > 0)) ? newY : _y.value
   }
@@ -79,25 +76,6 @@ async function handleSend() {
 
     const res: any = await aids({ submitid, usercode: userCode.value, sign: hexMD5(submitid + userCode.value + token.value), question: input.value })
 
-    // const _res = JSON.parse(res as string)
-    consola.info('AI Response:', res)
-    consola.info('AI Response:', typeof res)
-
-    // let _res
-    // try {
-    //   _res = JSON.parse(res as string)
-    // }
-    // catch (parseError) {
-    //   console.error('Invalid JSON response:', res)
-    //   chatList.value.push({ send: 'ai', content: '抱歉，收到了无效的响应格式。' })
-    //   return
-    // }
-
-    // consola.info('AI Response:', _res)
-
-    // if (_res && _res.content)
-    //   chatList.value.push({ send: 'ai', content: _res.content })
-    // chatList.value.push({ send: 'user', content: input.value })
     chatList.value.push({ send: 'ai', content: res })
   }
   catch (error) {
@@ -123,79 +101,75 @@ async function handleSend() {
       <RouterView />
     </main>
 
-    <div ref="target" class="fixed bottom-70px w-60px h-60px right-70px z-50 cursor-pointer" :style="{ left: `${_x}px`, top: `${_y}px` }">
-      <transition name="el-fade-in-linear">
-        <div v-if="isOpen" class="w-400px  overflow-hidden bg-#ffffff absolute bottom-[120%] right-0 rounded-lg">
-          <div class="w-100 h-100px bg-purple-700 flex justify-around items-center">
-            <div class="flex items-center gap-10px">
-              <el-avatar :icon="UserFilled" />
-              <div class="flex flex-col">
-                <span class="font-semibold text-20px text-white">AI在线小麦</span>
-                <span class="text-14px text-purple-100">在线 • 通常立即回复</span>
-              </div>
-            </div>
+    <el-popover v-model:visible="visible" width="352" popper-class="chat-popover" placement="top-end" trigger="click">
+      <template #reference>
+        <div
+          ref="target" class="fixed bottom-70px w-60px h-60px right-70px z-50 cursor-pointer"
+          :style="{ left: `${_x}px`, top: `${_y}px` }"
+        >
+          <div class="relative">
+            <div class="absolute inset-0 rounded-full bg-purple-400 animate-ping opacity-20 pointer-events-none" />
+            <div class="absolute inset-0 rounded-full bg-purple-400 animate-pulse opacity-30 pointer-events-none" />
 
-            <div class="flex items-center gap-15px">
-              <!-- <div class=" p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group">
+            <div
+              class="relative h-56px w-70px rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-2 border-white group"
+            >
+              <div class="relative h-100 flex justify-center items-center">
+                <div i-mingcute:chat-2-fill class="w-24px h-24px text-#ffffff" />
                 <div
-                  i-majesticons:minimize
-                  class="text-20px text-#ffffff group-hover:text-#333 transition-all duration-300"
+                  class="absolute top-12px right-12px w-12px h-12px bg-red-500 rounded-full border-2 border-white animate-bounce"
                 />
-              </div> -->
-
-              <div
-                class="p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group"
-                @click="isOpen = false"
-              >
-                <div i-ic:outline-close class="text-20px text-#ffffff group-hover:text-#333" />
-              </div>
-            </div>
-          </div>
-          <div class="w-100 h-500px bg-#ffffff flex flex-col min-h-0">
-            <div class="flex-1  w-100 flex flex-col min-h-0">
-              <div class="w-full flex-1 overflow-y-auto px-10px">
-                <div v-for="(item, index) in chatList" :key="index">
-                  <Item :item="item" />
-                </div>
-              </div>
-
-              <div class="bg-gray-50/50 p-12px w-100 border-t-1px border-#333/50 relative flex items-center">
-                <textarea
-                  id="input"
-                  v-model.trim="input" rows="1" type="textarea" autosize
-                  class="block w-100 pr-30px text-20px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none overflow-hidden"
-                  placeholder="请输入你的问题" @keydown.enter.prevent="handleSend"
-                />
-
-                <button
-
-                  size="sm"
-                  class="absolute right-16px top-1/2 -translate-y-1/2 p-4px rounded-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg"
-                >
-                  <div i-lets-icons:send-fill class="text-18px text-#ffffff" @click="handleSend" />
-                </button>
               </div>
             </div>
           </div>
         </div>
-      </transition>
+      </template>
 
-      <div class="relative" @click="isOpen = !isOpen">
-        <div class="absolute inset-0 rounded-full bg-purple-400 animate-ping opacity-20 pointer-events-none" />
-        <div class="absolute inset-0 rounded-full bg-purple-400 animate-pulse opacity-30 pointer-events-none" />
+      <div class="w-400px  overflow-hidden bg-#ffffff">
+        <div class="w-100 h-100px bg-purple-700 flex justify-around items-center">
+          <div class="flex items-center gap-10px">
+            <el-avatar :src="LOGO" />
+            <div class="flex flex-col">
+              <span class="font-semibold text-20px text-white">AI在线小麦</span>
+              <span class="text-14px text-purple-100">在线 • 通常立即回复</span>
+            </div>
+          </div>
 
-        <div
-          class="relative h-56px w-70px rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-2 border-white group"
-        >
-          <div class="relative h-100 flex justify-center items-center">
-            <div i-mingcute:chat-2-fill class="w-24px h-24px text-#ffffff" />
+          <div class="flex items-center gap-15px">
             <div
-              class="absolute top-12px right-12px w-12px h-12px bg-red-500 rounded-full border-2 border-white animate-bounce"
-            />
+              class="p-5px rounded-full bg-purple-500/0 hover:bg-purple-500 transition-all duration-300 group"
+              @click="isOpen = false"
+            >
+              <div i-ic:outline-close class="text-20px text-#ffffff group-hover:text-#333" />
+            </div>
+          </div>
+        </div>
+        <div class="w-100 h-500px bg-#ffffff flex flex-col min-h-0">
+          <div class="flex-1  w-100 flex flex-col min-h-0">
+            <div class="w-full flex-1 overflow-y-auto px-10px">
+              <div v-for="(item, index) in chatList" :key="index">
+                <Item :item="item" />
+              </div>
+            </div>
+
+            <div class="bg-gray-50/50 p-12px w-100 border-t-1px border-#333/50 relative flex items-center">
+              <textarea
+                id="input" v-model.trim="input" rows="1" type="textarea" autosize
+                class="block w-100 pr-30px text-20px leading-20px rounded-full bg-white text-gray-900  py-7px px-10px placeholder:text-gray-400 placeholder:text-20px border-1px border-purple-600 outline-none overflow-hidden"
+                placeholder="请输入你的问题" @keydown.enter.prevent="handleSend"
+              />
+
+              <button
+                size="sm"
+                class="absolute right-16px top-1/2 -translate-y-1/2 p-4px rounded-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg"
+              >
+                <div i-lets-icons:send-fill class="text-18px text-#ffffff" @click="handleSend" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </el-popover>
   </div>
 </template>
 
@@ -247,5 +221,14 @@ async function handleSend() {
     // border-radius: 20px;
   }
 
+}
+</style>
+
+<style lang="scss">
+.chat-popover {
+  padding: 0 !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+  border:none !important;
 }
 </style>
