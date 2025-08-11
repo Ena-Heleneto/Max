@@ -45,5 +45,6 @@
     "jsonc",
     "yaml"
 ],
-"files.autoSave": "afterDelay"
+"files.autoSave": "afterDelay",
+"vite.autoStart": false
 }

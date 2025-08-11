@@ -101,7 +101,7 @@ async function handleSend() {
       <RouterView />
     </main>
 
-    <el-popover v-model:visible="visible" width="352" popper-class="chat-popover" placement="top-end" trigger="click">
+    <el-popover v-model:visible="visible" width="10.67rem" popper-class="chat-popover" placement="top-end" trigger="click">
       <template #reference>
         <div
           ref="target" class="fixed bottom-70px w-60px h-60px right-70px z-50 cursor-pointer"
